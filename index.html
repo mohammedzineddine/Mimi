@@ -2,52 +2,91 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Graduation Congrats</title>
+    <meta charset="UTF-8">
+    <title>Music Discovery App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-
-    <style>
-        body {
-            cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'  width='40' height='48' viewport='0 0 100 100' style='fill:black;font-size:24px;'><text y='50%'>❤️</text></svg>") 16 0, auto;
-            /*!emojicursor.app*/
-            ;
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
-            background-image: url("mimi.jpg");
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-        }
-
-        .backdrop {
-            background-color: rgba(255, 255, 255, 0.75);
-            backdrop-filter: blur(10px);
-        }
-    </style>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 
-<body class="flex items-center justify-center min-h-screen p-6">
+<body class="bg-gradient-to-br from-purple-100 via-pink-50 to-indigo-100 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-purple-800 mb-2">🎵 Music Discovery</h1>
+            <p class="text-gray-600">Discover new music and get recommendations</p>
+        </div>
 
-    <div class="backdrop shadow-xl rounded-2xl p-8 max-w-xl w-full text-center border-4 border-pink-200">
-        <div class="text-4xl mb-4">🌸🌷🌹</div>
-        <h1 class="text-3xl font-bold text-pink-600 mb-2">Congratulations, Mimi!</h1>
-        <p class="text-lg text-gray-700 mt-4 leading-relaxed">
-            You did it! 🎓<br>
-            I’m so proud of you! Your dedication and strength have brought you here. <br><br>
-            May your future be as beautiful as this sunset behind you. 🌅
-        </p>
-        <div class="mt-6">
-  <p class="italic text-rose-500 text-base">
-    “Sweatpants, hair tied, chillin' with no makeup on<br>
-    That’s when you’re the prettiest, I hope that you don’t take it wrong.”<br>
-    <span class="text-sm text-gray-500">– Drake, *Best I Ever Had*</span>
-  </p>
-</div>
+        <!-- Search Section -->
+        <div class="max-w-2xl mx-auto mb-8">
+            <div class="bg-white rounded-2xl shadow-lg p-6">
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <input type="text" id="searchInput" placeholder="Search for an artist, song, or album..."
+                        class="flex-1 px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent">
+                    <button id="searchBtn"
+                        class="bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2">
+                        <i class="fas fa-search mr-2"></i>Search
+                    </button>
+                </div>
+            </div>
+        </div>
 
-        <div class="text-4xl mt-6">🎉❤️🌹</div>
+        <!-- Quick Actions -->
+        <div class="max-w-4xl mx-auto mb-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <button id="trendingBtn"
+                    class="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-semibold py-4 px-6 rounded-xl transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2">
+                    <i class="fas fa-fire mb-2 text-xl block"></i>
+                    Trending Now
+                </button>
+                <button id="randomBtn"
+                    class="bg-gradient-to-r from-indigo-500 to-blue-600 hover:from-indigo-600 hover:to-blue-700 text-white font-semibold py-4 px-6 rounded-xl transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2">
+                    <i class="fas fa-random mb-2 text-xl block"></i>
+                    Random Song
+                </button>
+                <button id="topChartsBtn"
+                    class="bg-gradient-to-r from-green-500 to-teal-600 hover:from-green-600 hover:to-teal-700 text-white font-semibold py-4 px-6 rounded-xl transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2">
+                    <i class="fas fa-chart-line mb-2 text-xl block"></i>
+                    Top Charts
+                </button>
+                <button id="genreBtn"
+                    class="bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white font-semibold py-4 px-6 rounded-xl transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2">
+                    <i class="fas fa-music mb-2 text-xl block"></i>
+                    By Genre
+                </button>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div class="max-w-6xl mx-auto">
+            <div id="results" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+            <div id="loading" class="hidden text-center py-8">
+                <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600"></div>
+                <p class="mt-2 text-gray-600">Loading music...</p>
+            </div>
+            <div id="error" class="hidden text-center py-8">
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-xl">
+                    <i class="fas fa-exclamation-triangle mr-2"></i>
+                    <span id="errorMessage">Something went wrong. Please try again.</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer - Powered by -->
+        <div class="text-center mt-12 py-6">
+            <div class="bg-white/70 backdrop-blur-sm rounded-xl shadow-lg p-4 max-w-md mx-auto">
+                <p class="text-purple-600 font-semibold text-lg">
+                    <i class="fas fa-code mr-2"></i>
+                    Powered by Zineddine Mohammed
+                </p>
+                <p class="text-gray-500 text-sm mt-1">Music Discovery App © 2025</p>
+            </div>
+        </div>
     </div>
 
+    <script src="music.js"></script>
 </body>
 
 </html>
