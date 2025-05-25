@@ -1,92 +1,235 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <title>Music Discovery App</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <meta charset="UTF-8">
+  <title>Music Discovery - Zineddine Mohammed</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <!-- Custom styles -->
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+    
+    * {
+      font-family: 'Inter', sans-serif;
+    }
+    
+    .glass {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .glass-dark {
+      background: rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .animate-float {
+      animation: float 6s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+    
+    .gradient-text {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .card-hover {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .card-hover:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    }
+    
+    .btn-glow {
+      box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+    }
+    
+    .btn-glow:hover {
+      box-shadow: 0 0 30px rgba(139, 92, 246, 0.5);
+    }
+    
+    /* Mobile optimizations */
+    @media (max-width: 640px) {
+      .mobile-padding {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+      
+      .mobile-text {
+        font-size: 1.5rem;
+      }
+    }
+    
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 10px;
+    }
+    
+    .audio-player {
+      border-radius: 12px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 2px;
+    }
+    
+    .audio-player audio {
+      width: 100%;
+      border-radius: 10px;
+      background: white;
+    }
+  </style>
 </head>
+<body class="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 relative overflow-x-hidden">
+  <!-- Background decorations -->
+  <div class="absolute inset-0 overflow-hidden">
+    <div class="absolute -top-40 -right-40 w-80 h-80 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-float"></div>
+    <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-pink-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-float" style="animation-delay: 2s;"></div>
+    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-60 h-60 bg-indigo-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-float" style="animation-delay: 4s;"></div>
+  </div>
 
-<body class="bg-gradient-to-br from-purple-100 via-pink-50 to-indigo-100 min-h-screen">
-    <div class="container mx-auto px-4 py-8">
-        <!-- Header -->
-        <div class="text-center mb-8">
-            <h1 class="text-4xl font-bold text-purple-800 mb-2">🎵 Music Discovery</h1>
-            <p class="text-gray-600">Discover new music and get recommendations</p>
-        </div>
-
-        <!-- Search Section -->
-        <div class="max-w-2xl mx-auto mb-8">
-            <div class="bg-white rounded-2xl shadow-lg p-6">
-                <div class="flex flex-col sm:flex-row gap-4">
-                    <input type="text" id="searchInput" placeholder="Search for an artist, song, or album..."
-                        class="flex-1 px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent">
-                    <button id="searchBtn"
-                        class="bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2">
-                        <i class="fas fa-search mr-2"></i>Search
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Quick Actions -->
-        <div class="max-w-4xl mx-auto mb-8">
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                <button id="trendingBtn"
-                    class="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-semibold py-4 px-6 rounded-xl transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2">
-                    <i class="fas fa-fire mb-2 text-xl block"></i>
-                    Trending Now
-                </button>
-                <button id="randomBtn"
-                    class="bg-gradient-to-r from-indigo-500 to-blue-600 hover:from-indigo-600 hover:to-blue-700 text-white font-semibold py-4 px-6 rounded-xl transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2">
-                    <i class="fas fa-random mb-2 text-xl block"></i>
-                    Random Song
-                </button>
-                <button id="topChartsBtn"
-                    class="bg-gradient-to-r from-green-500 to-teal-600 hover:from-green-600 hover:to-teal-700 text-white font-semibold py-4 px-6 rounded-xl transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2">
-                    <i class="fas fa-chart-line mb-2 text-xl block"></i>
-                    Top Charts
-                </button>
-                <button id="genreBtn"
-                    class="bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white font-semibold py-4 px-6 rounded-xl transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2">
-                    <i class="fas fa-music mb-2 text-xl block"></i>
-                    By Genre
-                </button>
-            </div>
-        </div>
-
-        <!-- Results Section -->
-        <div class="max-w-6xl mx-auto">
-            <div id="results" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
-            <div id="loading" class="hidden text-center py-8">
-                <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600"></div>
-                <p class="mt-2 text-gray-600">Loading music...</p>
-            </div>
-            <div id="error" class="hidden text-center py-8">
-                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-xl">
-                    <i class="fas fa-exclamation-triangle mr-2"></i>
-                    <span id="errorMessage">Something went wrong. Please try again.</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Footer - Powered by -->
-        <div class="text-center mt-12 py-6">
-            <div class="bg-white/70 backdrop-blur-sm rounded-xl shadow-lg p-4 max-w-md mx-auto">
-                <p class="text-purple-600 font-semibold text-lg">
-                    <i class="fas fa-code mr-2"></i>
-                    Powered by Zineddine Mohammed
-                </p>
-                <p class="text-gray-500 text-sm mt-1">Music Discovery App © 2025</p>
-            </div>
-        </div>
+  <div class="relative z-10 container mx-auto px-4 py-6 sm:py-8">
+    <!-- Header -->
+    <div class="text-center mb-8 sm:mb-12">
+      <div class="inline-block glass rounded-3xl p-6 sm:p-8 mb-6">
+        <h1 class="text-3xl sm:text-5xl font-bold gradient-text mb-3">
+          <i class="fas fa-music mr-3"></i>Music Discovery
+        </h1>
+        <p class="text-white/80 text-base sm:text-lg font-medium">
+          Discover amazing music from around the world
+        </p>
+      </div>
     </div>
 
-    <script src="music.js"></script>
-</body>
+    <!-- Search Section -->
+    <div class="max-w-2xl mx-auto mb-8 sm:mb-12">
+      <div class="glass rounded-3xl p-4 sm:p-6 shadow-2xl">
+        <div class="flex flex-col sm:flex-row gap-3 sm:gap-4">
+          <div class="relative flex-1">
+            <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="Search artists, songs, albums..."
+              class="w-full pl-12 pr-4 py-3 sm:py-4 bg-white/90 border-0 rounded-2xl focus:outline-none focus:ring-2 focus:ring-purple-400 focus:bg-white transition-all duration-200 text-gray-800 font-medium"
+            >
+          </div>
+          <button
+            id="searchBtn"
+            class="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold py-3 sm:py-4 px-6 sm:px-8 rounded-2xl transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 btn-glow"
+          >
+            <i class="fas fa-search mr-2"></i>
+            <span class="hidden sm:inline">Search</span>
+          </button>
+        </div>
+      </div>
+    </div>
 
+    <!-- Quick Actions -->
+    <div class="max-w-5xl mx-auto mb-8 sm:mb-12">
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
+        <button
+          id="trendingBtn"
+          class="glass rounded-2xl sm:rounded-3xl p-4 sm:p-6 text-white font-bold transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-pink-400 focus:ring-offset-2 card-hover group"
+        >
+          <div class="text-2xl sm:text-3xl mb-2 sm:mb-3 group-hover:animate-bounce">🔥</div>
+          <div class="text-sm sm:text-base">Trending</div>
+        </button>
+        <button
+          id="randomBtn"
+          class="glass rounded-2xl sm:rounded-3xl p-4 sm:p-6 text-white font-bold transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 card-hover group"
+        >
+          <div class="text-2xl sm:text-3xl mb-2 sm:mb-3 group-hover:animate-spin">🎲</div>
+          <div class="text-sm sm:text-base">Random</div>
+        </button>
+        <button
+          id="topChartsBtn"
+          class="glass rounded-2xl sm:rounded-3xl p-4 sm:p-6 text-white font-bold transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2 card-hover group"
+        >
+          <div class="text-2xl sm:text-3xl mb-2 sm:mb-3 group-hover:animate-pulse">📊</div>
+          <div class="text-sm sm:text-base">Top Charts</div>
+        </button>
+        <button
+          id="genreBtn"
+          class="glass rounded-2xl sm:rounded-3xl p-4 sm:p-6 text-white font-bold transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2 card-hover group"
+        >
+          <div class="text-2xl sm:text-3xl mb-2 sm:mb-3 group-hover:animate-pulse">🎵</div>
+          <div class="text-sm sm:text-base">Genres</div>
+        </button>
+      </div>
+    </div>
+
+    <!-- Results Section -->
+    <div class="max-w-7xl mx-auto mb-12">
+      <div id="results" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6"></div>
+      
+      <!-- Loading State -->
+      <div id="loading" class="hidden text-center py-12">
+        <div class="glass rounded-3xl p-8 max-w-md mx-auto">
+          <div class="inline-block animate-spin rounded-full h-12 w-12 border-4 border-white border-t-transparent mb-4"></div>
+          <p class="text-white font-medium text-lg">Discovering music...</p>
+          <p class="text-white/60 text-sm mt-2">Please wait while we find the perfect tracks</p>
+        </div>
+      </div>
+      
+      <!-- Error State -->
+      <div id="error" class="hidden text-center py-12">
+        <div class="glass rounded-3xl p-8 max-w-md mx-auto border-red-300">
+          <div class="text-red-400 text-4xl mb-4">
+            <i class="fas fa-exclamation-triangle"></i>
+          </div>
+          <h3 class="text-white font-bold text-lg mb-2">Oops! Something went wrong</h3>
+          <p id="errorMessage" class="text-white/80 mb-4">Unable to load music. Please try again.</p>
+          <button onclick="location.reload()" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-6 rounded-xl transition-colors duration-200">
+            <i class="fas fa-redo mr-2"></i>Try Again
+          </button>
+        </div>
+      </div>
+
+      <!-- Empty State -->
+      <div id="emptyState" class="hidden text-center py-12">
+        <div class="glass rounded-3xl p-8 max-w-md mx-auto">
+          <div class="text-white/60 text-6xl mb-4">🎵</div>
+          <h3 class="text-white font-bold text-lg mb-2">Ready to discover music?</h3>
+          <p class="text-white/80">Search for your favorite artists or explore trending songs!</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer - Powered by -->
+    <div class="text-center mt-16 pb-8">
+      <div class="glass rounded-3xl p-6 max-w-sm mx-auto">
+        <div class="flex items-center justify-center text-white mb-2">
+          <i class="fas fa-code text-purple-300 mr-3 text-xl"></i>
+          <span class="font-bold text-lg">Powered by</span>
+        </div>
+        <div class="gradient-text font-bold text-xl mb-1">Zineddine Mohammed</div>
+        <p class="text-white/60 text-sm">© 2025 Music Discovery App</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="music.js"></script>
+</body>
 </html>
